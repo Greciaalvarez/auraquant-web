@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraQuant | Algorithmic Precision</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f1115; /* Charcoal profundo */
+            color: #e2e8f0;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .cyan-glow {
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        .border-cyan { border-color: #00FFFF; }
+        .bg-cyan { background-color: #00FFFF; }
+        .text-cyan { color: #00FFFF; }
+        
+        /* Animación de fondo */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body class="antialiased">
 
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+        <div class="text-2xl font-bold tracking-tighter">
+            Aura<span class="text-cyan cyan-glow">Quant</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest text-gray-400">
+            <a href="#" class="hover:text-cyan transition">Sistemas</a>
+            <a href="#" class="hover:text-cyan transition">Investigación</a>
+            <a href="#" class="hover:text-cyan transition">Contacto</a>
+        </div>
+        <button class="border border-cyan text-cyan px-5 py-2 text-sm hover:bg-cyan hover:text-black transition duration-300">
+            Terminal
+        </button>
+    </nav>
+
+    <header class="max-w-7xl mx-auto px-8 py-24 md:py-40 flex flex-col items-center text-center">
+        <div class="inline-block px-3 py-1 border border-cyan/30 rounded-full text-[10px] uppercase tracking-[0.2em] text-cyan mb-6">
+            Institutional Grade Algorithms
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+            Precision-Engineered <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Quantitative Strategies</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl text-lg mb-12">
+            Arquitectamos alfa mediante análisis riguroso de datos y ejecución consciente del entorno macro. 12 años de experiencia institucional aplicados al trading algorítmico.
+        </p>
+        <div class="flex space-x-4">
+            <a href="#about" class="bg-cyan text-black px-8 py-4 font-bold hover:bg-white transition duration-300">
+                Explorar Metodología
+            </a>
+        </div>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-8 py-12 border-y border-white/10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="text-center">
+                <div class="mono text-cyan text-2xl mb-2">12+ Años</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500">Experiencia Senior</div>
+            </div>
+            <div class="text-center">
+                <div class="mono text-cyan text-2xl mb-2">Python/MQL5</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500">Stack Tecnológico</div>
+            </div>
+            <div class="text-center">
+                <div class="mono text-cyan text-2xl mb-2">Macro-Aware</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500">Filtros de Ejecución</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-8 py-24">
+        <h2 class="text-3xl font-bold mb-16 border-l-4 border-cyan pl-6">Nuestros Pilares</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-cyan/50 transition">
+                <div class="w-12 h-12 mb-6 flex items-center justify-center border border-cyan text-cyan">
+                    01
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-white">Quantitative Research</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Decisiones basadas puramente en datos. Modelamos comportamientos estadísticos para identificar ventajas competitivas en mercados líquidos.
+                </p>
+            </div>
+            <div class="p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-cyan/50 transition">
+                <div class="w-12 h-12 mb-6 flex items-center justify-center border border-cyan text-cyan">
+                    02
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-white">Automated Execution</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Sistemas de ejecución ultra-eficientes que minimizan el error humano y optimizan el slippage mediante filtros de volatilidad.
+                </p>
+            </div>
+            <div class="p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-cyan/50 transition">
+                <div class="w-12 h-12 mb-6 flex items-center justify-center border border-cyan text-cyan">
+                    03
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-white">Risk Architecture</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Gestión de riesgo de nivel institucional. Control estricto de drawdown y dimensionamiento dinámico de posiciones.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-white/10 text-center text-gray-600 text-xs tracking-[0.2em] uppercase">
+        © 2026 Aura Quant LLC. All Rights Reserved.
+    </footer>
+
+    <script>
+        // Animación simple de fondo (Lluvia de datos)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = "0101010101";
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for(let x = 0; x < columns; x++) drops[x] = 1;
+
+        function draw() {
+            ctx.fillStyle = 'rgba(15, 17, 21, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00FFFF';
+            ctx.font = fontSize + 'px monospace';
+
+            for(let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 35);
+    </script>
+</body>
+</html>
