@@ -1,169 +1,238 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuraQuant | Algorithmic Precision</title>
+    <title>AuraQuant | Precision-Engineered Quantitative Strategies</title>
+    <!-- Tailwind CSS for modern layout, animations, and typography -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#121212',
+                        cardDark: '#1a1a1a',
+                        cyanAccent: '#00FFFF',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f1115; /* Charcoal profundo */
-            color: #e2e8f0;
-        }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        .cyan-glow {
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-        .border-cyan { border-color: #00FFFF; }
-        .bg-cyan { background-color: #00FFFF; }
-        .text-cyan { color: #00FFFF; }
-        
-        /* Animación de fondo */
-        #bg-canvas {
+        /* Matrix/Data rain background effect styling */
+        canvas {
+            display: block;
             position: fixed;
             top: 0;
             left: 0;
-            z-index: -1;
-            opacity: 0.3;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        .glow-border:focus {
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            border-color: #00FFFF;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-charcoal text-gray-300 font-sans min-h-screen relative overflow-x-hidden selection:bg-cyanAccent selection:text-charcoal">
 
-    <canvas id="bg-canvas"></canvas>
+    <!-- Background Canvas for Automated Data Stream Visual -->
+    <canvas id="dataStream"></canvas>
 
-    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <div class="text-2xl font-bold tracking-tighter">
-            Aura<span class="text-cyan cyan-glow">Quant</span>
-        </div>
-        <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest text-gray-400">
-            <a href="#" class="hover:text-cyan transition">Sistemas</a>
-            <a href="#" class="hover:text-cyan transition">Investigación</a>
-            <a href="#" class="hover:text-cyan transition">Contacto</a>
-        </div>
-        <button class="border border-cyan text-cyan px-5 py-2 text-sm hover:bg-cyan hover:text-black transition duration-300">
-            Terminal
-        </button>
-    </nav>
+    <!-- 1. Top Transparency Banner -->
+    <div class="relative z-10 bg-black/60 border-b border-gray-800 text-center py-2 px-4 text-xs tracking-widest text-gray-400 font-mono">
+        <span class="inline-block w-2 h-2 rounded-full bg-cyanAccent mr-2 animate-pulse"></span>
+        AURAQUANT_SYSTEM: LIVE TESTING PHASE. Public access is currently restricted.
+    </div>
 
-    <header class="max-w-7xl mx-auto px-8 py-24 md:py-40 flex flex-col items-center text-center">
-        <div class="inline-block px-3 py-1 border border-cyan/30 rounded-full text-[10px] uppercase tracking-[0.2em] text-cyan mb-6">
-            Institutional Grade Algorithms
+    <!-- 2. Header / Navigation Bar -->
+    <header class="relative z-10 max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <!-- Sleek Geometric Logo Mark -->
+            <div class="w-8 h-8 border-2 border-cyanAccent rotate-45 flex items-center justify-center glow-text">
+                <span class="text-xs font-mono font-bold text-cyanAccent -rotate-45">AQ</span>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-white font-mono">Aura<span class="text-cyanAccent glow-text">Quant</span></span>
         </div>
-        <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-            Precision-Engineered <br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Quantitative Strategies</span>
-        </h1>
-        <p class="text-gray-400 max-w-2xl text-lg mb-12">
-            Arquitectamos alfa mediante análisis riguroso de datos y ejecución consciente del entorno macro. 12 años de experiencia institucional aplicados al trading algorítmico.
-        </p>
-        <div class="flex space-x-4">
-            <a href="#about" class="bg-cyan text-black px-8 py-4 font-bold hover:bg-white transition duration-300">
-                Explorar Metodología
-            </a>
-        </div>
+        <nav class="hidden md:flex space-x-8 text-sm font-mono tracking-wider">
+            <a href="#methodology" class="hover:text-cyanAccent transition">METHODOLOGY</a>
+            <a href="#infrastructure" class="hover:text-cyanAccent transition">INFRASTRUCTURE</a>
+            <a href="#waitlist" class="text-cyanAccent font-bold hover:underline transition">ALPHA_REQUEST</a>
+        </nav>
     </header>
 
-    <section class="max-w-7xl mx-auto px-8 py-12 border-y border-white/10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="text-center">
-                <div class="mono text-cyan text-2xl mb-2">12+ Años</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500">Experiencia Senior</div>
-            </div>
-            <div class="text-center">
-                <div class="mono text-cyan text-2xl mb-2">Python/MQL5</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500">Stack Tecnológico</div>
-            </div>
-            <div class="text-center">
-                <div class="mono text-cyan text-2xl mb-2">Macro-Aware</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500">Filtros de Ejecución</div>
-            </div>
+    <!-- 3. Hero Section -->
+    <main class="relative z-10 max-w-4xl mx-auto text-center px-6 pt-20 pb-16">
+        <div class="inline-block border border-cyanAccent/30 bg-cyanAccent/5 text-cyanAccent px-3 py-1 rounded-full text-xs font-mono tracking-widest uppercase mb-6 animate-pulse">
+            Institutional Grade Algorithms
         </div>
-    </section>
+        
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 uppercase">
+            Wait, Your Algorithms <br class="hidden md:inline">Have Feelings? <span class="text-cyanAccent glow-text">Gross.</span>
+        </h1>
+        
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            We engineer systematic, emotionless alpha because the market doesn't care about your gut feelings—and neither do we.
+        </p>
 
-    <section class="max-w-7xl mx-auto px-8 py-24">
-        <h2 class="text-3xl font-bold mb-16 border-l-4 border-cyan pl-6">Nuestros Pilares</h2>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="#waitlist" class="w-full sm:w-auto bg-cyanAccent text-charcoal font-bold font-mono px-8 py-4 rounded-sm hover:bg-white transition-all transform hover:-translate-y-0.5 duration-200 shadow-lg shadow-cyanAccent/20 uppercase tracking-wider text-sm">
+                Engineer Execution: Join Beta
+            </a>
+            <a href="#methodology" class="w-full sm:w-auto border border-gray-700 bg-black/20 hover:bg-black/50 text-gray-300 font-mono px-8 py-4 rounded-sm transition tracking-wider text-sm">
+                Explore Logic
+            </a>
+        </div>
+    </main>
+
+    <hr class="border-gray-900 my-12 relative z-10 max-w-5xl mx-auto">
+
+    <!-- 4. Value Proposition Pillars -->
+    <section id="methodology" class="relative z-10 max-w-6xl mx-auto px-6 py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-cyan/50 transition">
-                <div class="w-12 h-12 mb-6 flex items-center justify-center border border-cyan text-cyan">
-                    01
+            
+            <!-- Card 1 -->
+            <div class="bg-cardDark/50 border border-gray-800 p-8 rounded-sm hover:border-cyanAccent/30 transition duration-300 group">
+                <div class="w-12 h-12 rounded-sm bg-gray-900 border border-gray-700 flex items-center justify-center mb-6 group-hover:border-cyanAccent/50 transition">
+                    <svg class="w-6 h-6 text-cyanAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-4 text-white">Quantitative Research</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Decisiones basadas puramente en datos. Modelamos comportamientos estadísticos para identificar ventajas competitivas en mercados líquidos.
+                <h3 class="text-xl font-bold text-white mb-3 font-mono">100% Logic. 0% Intuition.</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    We calibrated over a decade of institutional risk-management seniority to translate market complexity into predictive execution structures. Because "hunches" are for movies, not capital preservation.
                 </p>
             </div>
-            <div class="p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-cyan/50 transition">
-                <div class="w-12 h-12 mb-6 flex items-center justify-center border border-cyan text-cyan">
-                    02
+
+            <!-- Card 2 -->
+            <div id="infrastructure" class="bg-cardDark/50 border border-gray-800 p-8 rounded-sm hover:border-cyanAccent/30 transition duration-300 group">
+                <div class="w-12 h-12 rounded-sm bg-gray-900 border border-gray-700 flex items-center justify-center mb-6 group-hover:border-cyanAccent/50 transition">
+                    <svg class="w-6 h-6 text-cyanAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-4 text-white">Automated Execution</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Sistemas de ejecución ultra-eficientes que minimizan el error humano y optimizan el slippage mediante filtros de volatilidad.
+                <h3 class="text-xl font-bold text-white mb-3 font-mono">Execution So Smooth, We Bored Ourselves.</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    Precision-engineered automated infrastructure that completely eliminates emotional bias. We trade with systematic, calculated predictability while everyone else is stressing over the 5-minute chart.
                 </p>
             </div>
-            <div class="p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-cyan/50 transition">
-                <div class="w-12 h-12 mb-6 flex items-center justify-center border border-cyan text-cyan">
-                    03
+
+            <!-- Card 3 -->
+            <div class="bg-cardDark/50 border border-gray-800 p-8 rounded-sm hover:border-cyanAccent/30 transition duration-300 group">
+                <div class="w-12 h-12 rounded-sm bg-gray-900 border border-gray-700 flex items-center justify-center mb-6 group-hover:border-cyanAccent/50 transition">
+                    <svg class="w-6 h-6 text-cyanAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-4 text-white">Risk Architecture</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Gestión de riesgo de nivel institucional. Control estricto de drawdown y dimensionamiento dinámico de posiciones.
+                <h3 class="text-xl font-bold text-white mb-3 font-mono">Verified Results. Unverified Feelings.</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    Total structural transparency. We deliver mathematical alpha, not explanations, powered by robust Python and MQL5 infrastructure deployed across high-availability cloud environments.
                 </p>
             </div>
+
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/10 text-center text-gray-600 text-xs tracking-[0.2em] uppercase">
-        © 2026 Aura Quant LLC. All Rights Reserved.
+    <!-- 5. Interactive Waitlist / Lead Capture Section -->
+    <section id="waitlist" class="relative z-10 max-w-2xl mx-auto px-6 py-20 text-center">
+        <div class="bg-black/40 border border-gray-800 p-8 md:p-12 rounded-sm backdrop-blur-md">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-3 uppercase tracking-tight">Private Testing: Alpha-Seekers Only</h2>
+            <p class="text-sm text-gray-400 mb-8 font-mono">
+                Our private beta is strictly restricted as we finalize real-money calibration milestones. To be considered for early manual-access integration, submit your request below.
+            </p>
+
+            <!-- Lead Capture Form linked directly to formspree or handled via custom js -->
+            <form id="waitlistForm" class="space-y-4 max-w-md mx-auto" onsubmit="handleWaitlistSubmit(event)">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="userName" required placeholder="FIRST NAME" 
+                           class="w-full sm:w-1/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none glow-border transition">
+                    <input type="email" id="userEmail" required placeholder="INSTITUTIONAL EMAIL" 
+                           class="w-full sm:w-2/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none glow-border transition">
+                </div>
+                <button type="submit" 
+                        class="w-full bg-transparent border border-cyanAccent text-cyanAccent font-mono font-bold py-3 px-6 rounded-sm hover:bg-cyanAccent hover:text-charcoal transition uppercase tracking-widest text-xs">
+                    Apply For Private Beta
+                </button>
+            </form>
+            
+            <!-- Success/Feedback Notification State -->
+            <div id="formFeedback" class="hidden mt-4 text-xs font-mono text-cyanAccent animate-pulse"></div>
+        </div>
+    </section>
+
+    <!-- 6. Footer containing Legal Disclaimers -->
+    <footer class="relative z-10 border-t border-gray-900 bg-black/50 py-12 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-6">
+            <p class="text-xs tracking-widest text-gray-500 font-mono">
+                "We code. We calibrate. We remove the humans. It's better this way."
+            </p>
+            
+            <!-- Mandatory Financial Use / Risk Disclosures -->
+            <div class="text-[10px] text-gray-600 font-mono text-justify sm:text-center leading-relaxed max-w-3xl mx-auto border-t border-gray-900 pt-6">
+                <span class="text-gray-400 block font-bold mb-1 uppercase tracking-wider">Legal & Risk Disclaimer</span>
+                Aura Quant LLC is a technology and software development company and does not manage client funds, solicit investment capital, or provide personalized financial advice. All algorithms, code templates, and content hosted on this domain are strictly for technical execution research, informational, and educational validation. Algorithmic trading involves massive market volatility risks. Past backtesting or live infrastructure tracking performance does not dictate or guarantee future results.
+            </div>
+
+            <div class="text-xs text-gray-500 font-mono pt-4">
+                &copy; 2026 AURA QUANT LLC. ALL RIGHTS RESERVED.
+            </div>
+        </div>
     </footer>
 
+    <!-- JavaScript logic for Data Rain background and mock storage -->
     <script>
-        // Animación simple de fondo (Lluvia de datos)
-        const canvas = document.getElementById('bg-canvas');
+        // --- 1. Canvas Data Stream Background Animation ---
+        const canvas = document.getElementById('dataStream');
         const ctx = canvas.getContext('2d');
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-        const chars = "0101010101";
-        const fontSize = 10;
+        // Binary characters mix for a quantitative strategy feel
+        const alphabet = "0101010101QUNTARAMQL5PYTHN";
+        const fontSize = 14;
         const columns = canvas.width / fontSize;
-        const drops = [];
+        const rainDrops = Array.from({ length: columns }).fill(1);
 
-        for(let x = 0; x < columns; x++) drops[x] = 1;
-
-        function draw() {
-            ctx.fillStyle = 'rgba(15, 17, 21, 0.05)';
+        function drawDataRain() {
+            ctx.fillStyle = 'rgba(18, 18, 18, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00FFFF';
+
+            ctx.fillStyle = '#00FFFF'; // AuraQuant Cyan Accent
             ctx.font = fontSize + 'px monospace';
 
-            for(let i = 0; i < drops.length; i++) {
-                const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
             }
         }
-        setInterval(draw, 35);
+        setInterval(drawDataRain, 33);
+
+        // --- 2. Form Intent Capture handling ---
+        function handleWaitlistSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const feedback = document.getElementById('formFeedback');
+
+            // Logs output safely for validation check
+            console.log("WAITLIST_LOG: Captured Intent Node ->", { name, email, timestamp: new Date() });
+
+            // Show interactive success state to user
+            feedback.classList.remove('hidden');
+            feedback.innerText = `SYS_SUCCESS: Request received for ${name.toUpperCase()}. Waitlist position locked.`;
+            
+            // Clear inputs
+            document.getElementById('waitlistForm').reset();
+        }
     </script>
 </body>
 </html>
-
-<footer style="background-color: #0b0c10; color: #666; padding: 40px 20px; font-family: sans-serif; font-size: 11px; line-height: 1.6; text-align: center; border-top: 1px solid #1f2833;">
-    <div style="max-width: 1000px; margin: 0 auto;">
-        <p style="margin-bottom: 15px; color: #8c8c8c; font-weight: bold; letter-spacing: 1px;">
-            LEGAL & RISK DISCLAIMER
-        </p>
-        <p style="margin-bottom: 20px; text-align: justify;">
-            Aura Quant LLC is a technology company that develops quantitative software, algorithmic infrastructure, and analytical tools. Aura Quant LLC is not a Registered Investment Advisor (RIA), commodity trading advisor, broker-dealer, or financial analyst, and does not provide personalized investment advice, trade signals, or wealth management services. All software, algorithms, and content provided are for educational, informational, and analytical tool purposes only. Trading financial markets involves a substantial risk of loss and is not suitable for every investor. Users are fully responsible for their own trading configurations and decisions. Past performance is not indicative of future results.
-        </p>
-        <p style="color: #45f3ff;">
-            © 2026 Aura Quant LLC. All rights reserved. | 
-            <a href="legal.html" style="color: #45f3ff; text-decoration: none; font-weight: bold;">Full Risk Disclosure</a>
-        </p>
-    </div>
-</footer>
