@@ -44,9 +44,9 @@
     <!-- Background Canvas for Automated Data Stream Visual -->
     <canvas id="dataStream"></canvas>
 
-    <!-- 1. Top Transparency Banner -->
-    <div class="relative z-10 bg-black/60 border-b border-gray-800 text-center py-2 px-4 text-xs tracking-widest text-gray-400 font-mono">
-        <span class="inline-block w-2 h-2 rounded-full bg-cyanAccent mr-2 animate-pulse"></span>
+    <!-- 1. Top Transparency Banner (CORREGIDO Y CENTRADO) -->
+    <div class="relative z-10 bg-black/80 border-b border-gray-900 flex items-center justify-center py-2 px-4 text-xs tracking-widest text-gray-400 font-mono w-full shadow-md">
+        <span class="inline-block w-2 h-2 rounded-full bg-cyanAccent mr-3 animate-pulse"></span>
         AURAQUANT_SYSTEM: LIVE TESTING PHASE. Public access is currently restricted.
     </div>
 
@@ -158,7 +158,49 @@
             <div id="formFeedback" class="hidden mt-4 text-xs font-mono text-cyanAccent animate-pulse"></div>
         </div>
     </section>
+    <!-- 5.5 Interactive Performance Dashboard -->
+    <section id="performance" class="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-gray-900 mt-10">
+        <div class="text-center mb-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-white uppercase tracking-tight font-mono">Historical Performance Evolution</h2>
+            <p class="text-gray-500 text-sm mt-2 font-mono">Systematic infrastructure backtesting and live execution metrics.</p>
+        </div>
 
+        <!-- Interactive Tabs -->
+        <div class="flex justify-center space-x-4 mb-8">
+            <button id="btn-june" onclick="updateDashboard('june')" class="px-6 py-2 border border-cyanAccent bg-cyanAccent/10 text-cyanAccent font-mono text-sm uppercase tracking-wider transition glow-border cursor-pointer">June 2026</button>
+            <button id="btn-july" onclick="updateDashboard('july')" class="px-6 py-2 border border-gray-700 text-gray-400 hover:border-cyanAccent hover:text-cyanAccent font-mono text-sm uppercase tracking-wider transition cursor-pointer">July 2026</button>
+        </div>
+
+        <!-- Quantitative KPI Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-cardDark/80 border border-gray-800 p-6 text-center rounded-sm hover:border-cyanAccent/30 transition">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest">Net Return</div>
+                <div id="metric-return" class="text-3xl font-bold text-white font-mono">+4.2%</div>
+            </div>
+            <div class="bg-cardDark/80 border border-gray-800 p-6 text-center rounded-sm hover:border-cyanAccent/30 transition">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest">Sharpe Ratio</div>
+                <div id="metric-sharpe" class="text-3xl font-bold text-white font-mono">1.85</div>
+            </div>
+            <div class="bg-cardDark/80 border border-gray-800 p-6 text-center rounded-sm hover:border-cyanAccent/30 transition">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest">Max Drawdown</div>
+                <div id="metric-drawdown" class="text-3xl font-bold text-white font-mono">-1.2%</div>
+            </div>
+            <div class="bg-cardDark/80 border border-gray-800 p-6 text-center rounded-sm hover:border-cyanAccent/30 transition">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest">Win Rate</div>
+                <div id="metric-winrate" class="text-3xl font-bold text-white font-mono">68.4%</div>
+            </div>
+        </div>
+
+        <!-- Glowing Area Chart Placeholder -->
+        <div class="w-full h-48 bg-black/40 border border-gray-800 rounded-sm flex items-end relative overflow-hidden p-0">
+            <!-- Gradient background effect -->
+            <div class="absolute inset-0 bg-gradient-to-t from-cyanAccent/20 to-transparent opacity-50"></div>
+            <!-- SVG Line Chart -->
+            <svg id="chart-svg" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,255,255,0.8)] transition-all duration-500" preserveAspectRatio="none" viewBox="0 0 100 100">
+                <polyline fill="none" stroke="#00FFFF" stroke-width="1.5" points="0,80 20,60 40,65 60,35 80,45 100,15" />
+            </svg>
+        </div>
+    </section>
     <!-- 6. Footer containing Legal Disclaimers -->
     <footer class="relative z-10 border-t border-gray-900 bg-black/50 py-12 px-6">
         <div class="max-w-4xl mx-auto text-center space-y-6">
@@ -232,6 +274,42 @@
             
             // Clear inputs
             document.getElementById('waitlistForm').reset();
+        }
+        // --- 3. Interactive Dashboard Logic ---
+        const dashboardData = {
+            june: { 
+                ret: "+4.2%", sharpe: "1.85", dd: "-1.2%", win: "68.4%", 
+                points: "0,80 20,60 40,65 60,35 80,45 100,15" 
+            },
+            july: { 
+                ret: "+6.8%", sharpe: "2.14", dd: "-0.9%", win: "73.1%", 
+                points: "0,90 20,50 40,55 60,25 80,30 100,5" 
+            }
+        };
+
+        function updateDashboard(month) {
+            // Update the KPI numbers
+            document.getElementById('metric-return').innerText = dashboardData[month].ret;
+            document.getElementById('metric-sharpe').innerText = dashboardData[month].sharpe;
+            document.getElementById('metric-drawdown').innerText = dashboardData[month].dd;
+            document.getElementById('metric-winrate').innerText = dashboardData[month].win;
+
+            // Update the SVG Chart curve
+            document.querySelector('#chart-svg polyline').setAttribute('points', dashboardData[month].points);
+
+            // Toggle Button Styles (Active vs Inactive)
+            const btnJune = document.getElementById('btn-june');
+            const btnJuly = document.getElementById('btn-july');
+            const activeClass = "px-6 py-2 border border-cyanAccent bg-cyanAccent/10 text-cyanAccent font-mono text-sm uppercase tracking-wider transition glow-border cursor-pointer";
+            const inactiveClass = "px-6 py-2 border border-gray-700 text-gray-400 hover:border-cyanAccent hover:text-cyanAccent font-mono text-sm uppercase tracking-wider transition cursor-pointer";
+
+            if(month === 'june') {
+                btnJune.className = activeClass;
+                btnJuly.className = inactiveClass;
+            } else {
+                btnJuly.className = activeClass;
+                btnJune.className = inactiveClass;
+            }
         }
     </script>
 </body>
