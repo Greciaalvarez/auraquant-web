@@ -143,18 +143,36 @@
             </p>
 
             <!-- Lead Capture Form linked directly to formspree or handled via custom js -->
-            <form id="waitlistForm" class="space-y-4 max-w-md mx-auto" onsubmit="handleWaitlistSubmit(event)">
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input type="text" id="userName" required placeholder="FIRST NAME" 
-                           class="w-full sm:w-1/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none glow-border transition">
-                    <input type="email" id="userEmail" required placeholder="YOUR EMAIL" 
-                           class="w-full sm:w-2/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none glow-border transition">
-                </div>
-                <button type="submit" 
-                        class="w-full bg-transparent border border-cyanAccent text-cyanAccent font-mono font-bold py-3 px-6 rounded-sm hover:bg-cyanAccent hover:text-charcoal transition uppercase tracking-widest text-xs">
-                    Apply For Private Beta
-                </button>
-            </form>
+            <!-- Formulario Conectado a Web3Forms -->
+        <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-4 max-w-md mx-auto">
+            
+            <!-- REEMPLAZA CON TU ACCESS KEY DE WEB3FORMS -->
+            <input type="hidden" name="access_key" value="946bbcfc-28e4-4f7b-9331-5abb5237570e">
+            
+            <!-- Asunto del correo que te llegará a ti -->
+            <input type="hidden" name="subject" value="New Alpha Request - AuraQuant Beta Waitlist">
+            
+            <!-- Evita spam con HoneyPot -->
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" name="name" id="userName" required placeholder="FIRST NAME"
+                    class="w-full sm:w-1/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyanAccent glow-border transition">
+                
+                <input type="email" name="email" id="userEmail" required placeholder="YOUR EMAIL"
+                    class="w-full sm:w-2/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyanAccent glow-border transition">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-transparent border border-cyanAccent text-cyanAccent font-mono font-bold py-3 px-6 rounded-sm hover:bg-cyanAccent hover:text-charcoal transition uppercase tracking-widest text-xs cursor-pointer shadow-[0_0_10px_rgba(0,255,255,0.2)]">
+                Apply For Private Beta
+            </button>
+
+            <!-- Mensaje de confirmación en terminal cuantitativa -->
+            <div id="formSuccess" class="hidden mt-4 text-xs font-mono text-cyanAccent bg-cyanAccent/10 border border-cyanAccent/30 p-3 rounded-sm">
+                • REQUEST RECEIVED. YOU HAVE BEEN ADDED TO THE ALPHA RESTRICTED QUEUE.
+            </div>
+        </form>
             
             <!-- Success/Feedback Notification State -->
             <div id="formFeedback" class="hidden mt-4 text-xs font-mono text-cyanAccent animate-pulse"></div>
@@ -280,6 +298,37 @@
                 btnJune.className = inactiveClass;
             }
         }
+
+    // --- Manejo Asincrónico del Formulario (Waitlist) ---
+        const form = document.getElementById('waitlistForm');
+        const successMessage = document.getElementById('formSuccess');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    // Limpiar campos y mostrar confirmación estilo terminal
+                    form.reset();
+                    successMessage.classList.remove('hidden');
+                    // Ocultar mensaje después de 6 segundos
+                    setTimeout(() => {
+                        successMessage.classList.add('hidden');
+                    }, 6000);
+                } else {
+                    alert('System Error: ' + json.message);
+                }
+            })
+            .catch(error => {
+                alert('Connection error. Please try again.');
+            });
+        });
     </script>
 </body>
 </html>
