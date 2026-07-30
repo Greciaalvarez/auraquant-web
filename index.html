@@ -144,25 +144,30 @@
 
             <!-- Lead Capture Form linked directly to formspree or handled via custom js -->
             <!-- Formulario Conectado a Web3Forms -->
+        <!-- Formulario Conectado a Web3Forms con Mensaje Opcional -->
         <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-4 max-w-md mx-auto">
             
             <!-- REEMPLAZA CON TU ACCESS KEY DE WEB3FORMS -->
-            <input type="hidden" name="access_key" value="946bbcfc-28e4-4f7b-9331-5abb5237570e">
-            
-            <!-- Asunto del correo que te llegará a ti -->
+            <input type="hidden" name="access_key" value="TU-ACCESS-KEY-AQUI">
             <input type="hidden" name="subject" value="New Alpha Request - AuraQuant Beta Waitlist">
-            
-            <!-- Evita spam con HoneyPot -->
             <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
+            <!-- Fila de Nombre y Correo -->
             <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" name="name" id="userName" required placeholder="FIRST NAME"
+                <input type="text" name="name" id="userName" required placeholder="FIRST NAME *"
                     class="w-full sm:w-1/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyanAccent glow-border transition">
                 
-                <input type="email" name="email" id="userEmail" required placeholder="YOUR EMAIL"
+                <input type="email" name="email" id="userEmail" required placeholder="YOUR EMAIL *"
                     class="w-full sm:w-2/3 bg-charcoal border border-gray-700 rounded-sm px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyanAccent glow-border transition">
             </div>
 
+            <!-- NUEVO: Campo de Mensaje / Nota (Opcional) -->
+            <div class="w-full">
+                <textarea name="message" id="userMessage" rows="2" placeholder="OPTIONAL: SPECIFY INTEREST OR ALLOCATION INQUIRY..."
+                    class="w-full bg-charcoal border border-gray-700 rounded-sm px-4 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyanAccent glow-border transition resize-none"></textarea>
+            </div>
+
+            <!-- Botón de Envío -->
             <button type="submit"
                 class="w-full bg-transparent border border-cyanAccent text-cyanAccent font-mono font-bold py-3 px-6 rounded-sm hover:bg-cyanAccent hover:text-charcoal transition uppercase tracking-widest text-xs cursor-pointer shadow-[0_0_10px_rgba(0,255,255,0.2)]">
                 Apply For Private Beta
