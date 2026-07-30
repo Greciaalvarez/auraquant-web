@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraQuant | Performance Metrics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#121212',
+                        cyanAccent: '#00FFFF',
+                        brandBlue: '#0a192f'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans min-h-screen selection:bg-cyanAccent selection:text-charcoal">
+
+    <!-- Dark Navigation Bar -->
+    <header class="bg-charcoal border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="w-8 h-8 border-2 border-cyanAccent rotate-45 flex items-center justify-center group-hover:bg-cyanAccent/10 transition">
+                    <span class="text-xs font-mono font-bold text-cyanAccent -rotate-45">AQ</span>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white font-mono">Aura<span class="text-cyanAccent">Quant</span></span>
+            </a>
+            <a href="index.html" class="text-gray-400 hover:text-white font-mono text-sm tracking-wider flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                RETURN TO SYSTEM
+            </a>
+        </div>
+    </header>
+
+    <!-- Light Theme Data Room -->
+    <main class="max-w-6xl mx-auto px-6 py-16">
+        
+        <!-- Header & Tabs Row -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+            <div>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-charcoal uppercase tracking-tight">System Performance</h1>
+                <p class="text-gray-500 font-mono mt-2">Verified quantitative execution metrics</p>
+            </div>
+            
+            <!-- Pills / Tabs -->
+            <div class="flex space-x-2 bg-white p-1 border border-gray-200 rounded-md shadow-sm">
+                <button id="btn-june" onclick="updateDashboard('june')" class="px-5 py-2 text-gray-500 font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded hover:bg-gray-50">June 2026</button>
+                <button id="btn-july" onclick="updateDashboard('july')" class="px-5 py-2 bg-charcoal text-cyanAccent font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded shadow-md">July 2026</button>
+            </div>
+        </div>
+
+        <!-- Quantitative KPI Grid (5 metrics) in Light Mode -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest text-left">Net Return</div>
+                <div id="metric-return" class="text-3xl font-bold text-charcoal font-mono text-left">+6.19%</div>
+            </div>
+            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest text-left">Sharpe Ratio</div>
+                <div id="metric-sharpe" class="text-3xl font-bold text-charcoal font-mono text-left">3.08</div>
+            </div>
+            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest text-left">Max Drawdown</div>
+                <div id="metric-drawdown" class="text-3xl font-bold text-red-600 font-mono text-left">-1.42%</div>
+            </div>
+            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest text-left">Win Rate</div>
+                <div id="metric-winrate" class="text-3xl font-bold text-charcoal font-mono text-left">68.1%</div>
+            </div>
+            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
+                <div class="text-gray-500 text-[10px] font-mono mb-2 uppercase tracking-widest text-left">Profit Factor</div>
+                <div id="metric-profit" class="text-3xl font-bold text-charcoal font-mono text-left">1.95</div>
+            </div>
+        </div>
+
+        <!-- Clean Chart Panel -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm relative overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center mb-6">
+                <div class="text-gray-500 text-xs font-mono tracking-widest flex items-center">
+                    <span class="w-2 h-2 bg-charcoal rounded-full mr-2"></span>
+                    EQUITY CURVE - <span id="chart-month-label" class="ml-1 text-charcoal font-bold">JULY 2026</span>
+                </div>
+            </div>
+            
+            <div class="w-full h-64 relative">
+                <div class="absolute inset-0 flex flex-col justify-between opacity-10 pointer-events-none">
+                    <div class="border-b border-gray-900 w-full h-0"></div>
+                    <div class="border-b border-gray-900 w-full h-0"></div>
+                    <div class="border-b border-gray-900 w-full h-0"></div>
+                    <div class="border-b border-gray-900 w-full h-0"></div>
+                </div>
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-100 to-transparent opacity-80"></div>
+                
+                <svg id="chart-svg" class="w-full h-full transition-all duration-700 ease-in-out relative z-10" preserveAspectRatio="none" viewBox="0 0 100 100">
+                    <path id="chart-path" fill="none" stroke="#121212" stroke-width="2" d="M0,80 C10,60 20,65 30,75 C40,85 45,70 50,55 C60,25 75,20 85,35 C90,40 95,38 100,25" />
+                </svg>
+            </div>
+            <div class="flex justify-between text-[10px] text-gray-400 font-mono mt-4">
+                <span>Day 1</span><span>Day 7</span><span>Day 14</span><span>Day 21</span><span>Day 28</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript Logic for the new page -->
+    <script>
+        const dashboardData = {
+            june: { 
+                ret: "+4.12%", sharpe: "2.15", dd: "-1.85%", win: "64.3%", profit: "1.72", label: "JUNE 2026",
+                path: "M0,90 C15,70 25,75 35,60 C45,45 55,50 65,30 C75,10 85,25 100,20" 
+            },
+            july: { 
+                ret: "+6.19%", sharpe: "3.08", dd: "-1.42%", win: "68.1%", profit: "1.95", label: "JULY 2026",
+                path: "M0,80 C10,60 20,65 30,75 C40,85 45,70 50,55 C60,25 75,20 85,35 C90,40 95,38 100,25" 
+            }
+        };
+
+        function updateDashboard(month) {
+            document.getElementById('metric-return').innerText = dashboardData[month].ret;
+            document.getElementById('metric-sharpe').innerText = dashboardData[month].sharpe;
+            document.getElementById('metric-drawdown').innerText = dashboardData[month].dd;
+            document.getElementById('metric-winrate').innerText = dashboardData[month].win;
+            document.getElementById('metric-profit').innerText = dashboardData[month].profit;
+            document.getElementById('chart-month-label').innerText = dashboardData[month].label;
+            document.getElementById('chart-path').setAttribute('d', dashboardData[month].path);
+
+            const btnJune = document.getElementById('btn-june');
+            const btnJuly = document.getElementById('btn-july');
+            
+            const activeClass = "px-5 py-2 bg-charcoal text-cyanAccent font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded shadow-md";
+            const inactiveClass = "px-5 py-2 text-gray-500 font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded hover:bg-gray-50";
+
+            if(month === 'june') {
+                btnJune.className = activeClass;
+                btnJuly.className = inactiveClass;
+            } else {
+                btnJuly.className = activeClass;
+                btnJune.className = inactiveClass;
+            }
+        }
+    </script>
+</body>
+</html>
