@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuraQuant | Performance Metrics</title>
-    <!-- Tailwind CSS -->
+    <title>AuraQuant | Performance & Execution Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Motor Gráfico ApexCharts para el Dashboard Dinámico -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         charcoal: '#121212',
+                        cardDark: '#1a1a1a',
                         cyanAccent: '#00FFFF',
                     }
                 }
@@ -21,197 +20,238 @@
         }
     </script>
     <style>
-        /* Personalización del Tooltip interactivo (la cajita que sigue tu mouse) */
-        .apexcharts-tooltip {
-            background: #ffffff !important;
-            border: 1px solid #e5e7eb !important;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-            color: #111827 !important;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
-            border-radius: 4px !important;
-        }
-        .apexcharts-tooltip-title {
-            background: #f9fafb !important;
-            border-bottom: 1px solid #e5e7eb !important;
-            font-size: 10px !important;
-            font-weight: bold !important;
-            color: #4b5563 !important;
-        }
+        .glow-text { text-shadow: 0 0 10px rgba(0, 255, 255, 0.4); }
     </style>
 </head>
-<!-- FONDO BLANCO INSTITUCIONAL: bg-gray-50 -->
-<body class="bg-gray-50 text-gray-900 font-sans min-h-screen selection:bg-charcoal selection:text-white">
+<body class="bg-charcoal text-gray-300 font-sans min-h-screen relative selection:bg-cyanAccent selection:text-charcoal">
 
-    <!-- Navegación Superior (Oscura para conectar visualmente con la portada) -->
-    <header class="bg-charcoal border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-3 group">
-                <div class="w-8 h-8 border-2 border-cyanAccent rotate-45 flex items-center justify-center group-hover:bg-cyanAccent/10 transition">
-                    <span class="text-xs font-mono font-bold text-cyanAccent -rotate-45">AQ</span>
-                </div>
-                <span class="text-xl font-bold tracking-tight text-white font-mono">Aura<span class="text-cyanAccent">Quant</span></span>
-            </a>
-            <a href="index.html" class="text-gray-400 hover:text-white font-mono text-xs tracking-widest flex items-center transition uppercase">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Return to Core System
-            </a>
+    <!-- Navigation -->
+    <header class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center border-b border-gray-800">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 border-2 border-cyanAccent rotate-45 flex items-center justify-center glow-text">
+                <span class="text-xs font-mono font-bold text-cyanAccent -rotate-45">AQ</span>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-white font-mono">Aura<span class="text-cyanAccent glow-text">Quant</span></span>
         </div>
+        <a href="index.html" class="text-xs font-mono text-gray-400 hover:text-cyanAccent transition">&larr; RETURN TO CORE SYSTEM</a>
     </header>
 
-    <!-- Contenedor Principal del Dashboard Limpio -->
     <main class="max-w-6xl mx-auto px-6 py-12">
-        
-        <!-- Cabecera de la Sección -->
-        <div class="mb-8">
-            <div class="text-gray-400 text-[10px] font-mono tracking-widest uppercase mb-2 flex items-center">
-                <span>// 02 · TRACK RECORD</span> 
-            </div>
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                <h1 class="text-3xl md:text-5xl font-extrabold text-charcoal uppercase tracking-tight">Historical Performance Evolution</h1>
-                
-                <!-- Botones Interactivos (Modo Claro) -->
-                <div class="flex space-x-2 bg-white p-1 border border-gray-200 rounded-md shadow-sm">
-                    <button id="btn-june" onclick="updateDashboard('june')" class="px-6 py-2 text-gray-500 font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded hover:bg-gray-50 border border-transparent">June 2026</button>
-                    <button id="btn-july" onclick="updateDashboard('july')" class="px-6 py-2 bg-charcoal text-cyanAccent border border-charcoal font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded shadow-md">July 2026</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cuadrícula de 4 Métricas (Tarjetas Blancas con Sombra Suave) -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
-                <div class="text-gray-400 text-[10px] font-mono mb-3 uppercase tracking-widest">Net Return</div>
-                <div id="metric-return" class="text-4xl font-bold text-charcoal font-mono">+6.19%</div>
-            </div>
-            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
-                <div class="text-gray-400 text-[10px] font-mono mb-3 uppercase tracking-widest">Sharpe Ratio</div>
-                <div id="metric-sharpe" class="text-4xl font-bold text-charcoal font-mono">3.08</div>
-            </div>
-            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
-                <div class="text-gray-400 text-[10px] font-mono mb-3 uppercase tracking-widest">Max Drawdown</div>
-                <div id="metric-drawdown" class="text-4xl font-bold text-red-600 font-mono">-1.42%</div>
-            </div>
-            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
-                <div class="text-gray-400 text-[10px] font-mono mb-3 uppercase tracking-widest">Win Rate</div>
-                <div id="metric-winrate" class="text-4xl font-bold text-charcoal font-mono">68.1%</div>
-            </div>
-        </div>
-
-        <!-- Gráfico Interactivo ApexCharts en Contenedor Blanco -->
-        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm relative">
-            <div class="flex justify-between items-center mb-2">
-                <div class="text-gray-500 text-xs font-mono tracking-widest flex items-center">
-                    <span class="w-2 h-2 bg-charcoal rounded-full mr-2"></span>
-                    EQUITY CURVE - <span id="chart-month-label" class="ml-1 text-charcoal font-bold">JULY 2026</span>
-                </div>
-                <div class="text-gray-400 text-[10px] font-mono uppercase tracking-widest">
-                    INDEX = 100
-                </div>
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+                <p class="text-xs font-mono text-cyanAccent tracking-widest uppercase mb-2">// 02 . TRACK RECORD & EXECUTION</p>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight font-mono uppercase">Historical Performance Evolution</h1>
             </div>
             
-            <!-- Contenedor donde ApexCharts inyectará el gráfico -->
-            <div id="interactive-chart" class="w-full h-80"></div>
+            <!-- Month Selector Tabs -->
+            <div class="flex bg-cardDark border border-gray-800 p-1 rounded-sm font-mono text-xs">
+                <button onclick="switchTab('june')" id="tab-june" class="px-4 py-2 text-gray-400 hover:text-white transition">JUNE 2026</button>
+                <button onclick="switchTab('july')" id="tab-july" class="px-4 py-2 bg-black text-cyanAccent font-bold border border-cyanAccent/30 shadow-sm">JULY 2026</button>
+            </div>
+        </div>
+
+        <!-- Metric KPI Cards Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
+                <p class="text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">NET RETURN</p>
+                <p id="kpi-return" class="text-2xl font-extrabold text-cyanAccent font-mono glow-text">+2.33%</p>
+            </div>
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
+                <p class="text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">PROFIT FACTOR</p>
+                <p id="kpi-pf" class="text-2xl font-extrabold text-white font-mono">1.67</p>
+            </div>
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
+                <p class="text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">SHARPE RATIO</p>
+                <p id="kpi-sharpe" class="text-2xl font-extrabold text-white font-mono">3.57</p>
+            </div>
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
+                <p class="text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">MAX DRAWDOWN</p>
+                <p id="kpi-drawdown" class="text-2xl font-extrabold text-red-400 font-mono">-1.54%</p>
+            </div>
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm col-span-2 md:col-span-1">
+                <p class="text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">WIN RATE</p>
+                <p id="kpi-winrate" class="text-2xl font-extrabold text-white font-mono">66.7%</p>
+            </div>
+        </div>
+
+        <!-- Main Equity Curve Chart Block -->
+        <div class="bg-cardDark border border-gray-800 p-6 rounded-sm mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <p id="chart-title" class="text-xs font-mono text-gray-400 tracking-wider">&bull; EQUITY CURVE &mdash; JULY 2026 (FTMO LIVE EVALUATION)</p>
+                <p class="text-xs font-mono text-gray-500">BASE = $25,000 USD</p>
+            </div>
+            <div class="w-full h-72">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- LEVEL 3: SEASONALITY & EXECUTION ANALYTICS (NUEVA SECCIÓN) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Weekday PnL Chart -->
+            <div class="md:col-span-2 bg-cardDark border border-gray-800 p-6 rounded-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-xs font-mono text-cyanAccent tracking-wider uppercase">// SEASONALITY: PnL BY DAY OF WEEK</p>
+                    <span class="text-[10px] font-mono text-gray-500">USD CONSOLIDATED</span>
+                </div>
+                <div class="w-full h-48">
+                    <canvas id="weekdayChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Holding Time & Execution Stats -->
+            <div class="bg-cardDark border border-gray-800 p-6 rounded-sm flex flex-col justify-between">
+                <div>
+                    <p class="text-xs font-mono text-cyanAccent tracking-wider uppercase mb-4">// EXECUTION DYNAMICS</p>
+                    
+                    <div class="space-y-4 font-mono text-xs">
+                        <div class="flex justify-between border-b border-gray-800 pb-2">
+                            <span class="text-gray-400">Avg Holding Time:</span>
+                            <span id="stat-holding" class="text-white font-bold">35.17 hrs</span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-800 pb-2">
+                            <span class="text-gray-400">Total Executed Trades:</span>
+                            <span id="stat-trades" class="text-white font-bold">9 trades</span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-800 pb-2">
+                            <span class="text-gray-400">Primary Core Asset:</span>
+                            <span class="text-cyanAccent font-bold">XAUUSD (Gold)</span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-800 pb-2">
+                            <span class="text-gray-400">Risk per Trade:</span>
+                            <span class="text-white font-bold">0.50% - 1.00%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-gray-800/80">
+                    <p class="text-[10px] font-mono text-gray-500 leading-relaxed">
+                        * Execution algorithms enforce automated macro-event pauses and volatility filters prior to High-Impact news releases.
+                    </p>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- Footer Limpio -->
-    <footer class="border-t border-gray-200 bg-white py-8 px-6 mt-12">
-        <div class="max-w-4xl mx-auto text-center space-y-4">
-            <p class="text-xs tracking-widest text-gray-400 font-mono uppercase">
-                "We code. We calibrate. We control the chaos. We are Aura Quant."
-            </p>
-        </div>
-    </footer>
-
-    <!-- Lógica del Dashboard y Gráfico (Modo Claro) -->
+    <!-- Chart & Interactivity Script -->
     <script>
-        const dashboardData = {
-            june: { 
-                ret: "+4.12%", sharpe: "2.15", dd: "-1.85%", win: "64.3%", label: "JUNE 2026",
-                chartData: [99.5, 100.2, 98.8, 101.4, 102.1, 100.9, 103.5, 104.1]
+        // Data parsed directly from MT5 Report History
+        const dataset = {
+            june: {
+                title: "EQUITY CURVE — JUNE 2026 (FTMO LIVE EVALUATION)",
+                kpis: { return: "+4.96%", pf: "1.47", sharpe: "2.67", drawdown: "-4.83%", winrate: "47.4%" },
+                stats: { holding: "23.63 hrs", trades: "19 trades" },
+                labels: ["Jun 02", "Jun 04", "Jun 09", "Jun 11", "Jun 17", "Jun 22", "Jun 25", "Jun 30"],
+                data: [25000, 24691.59, 25892.47, 24683.45, 25282.83, 26340.88, 25983.32, 26240.52]
             },
-            july: { 
-                ret: "+6.19%", sharpe: "3.08", dd: "-1.42%", win: "68.1%", label: "JULY 2026",
-                chartData: [100.0, 101.2, 102.5, 101.8, 103.4787, 105.1, 104.2, 106.19]
+            july: {
+                title: "EQUITY CURVE — JULY 2026 (FTMO LIVE EVALUATION)",
+                kpis: { return: "+2.33%", pf: "1.67", sharpe: "3.57", drawdown: "-1.54%", winrate: "66.7%" },
+                stats: { holding: "35.17 hrs", trades: "9 trades" },
+                labels: ["Jul 01", "Jul 06", "Jul 13", "Jul 17", "Jul 22", "Jul 27", "Jul 31"],
+                data: [26240.52, 25958.22, 25762.34, 25937.06, 26111.78, 26412.83, 26822.02]
             }
         };
 
-        const chartOptions = {
-            series: [{
-                name: 'Index Value',
-                data: dashboardData.july.chartData
-            }],
-            chart: {
-                type: 'area',
-                height: 320,
-                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                toolbar: { show: false },
-                animations: { enabled: true, easing: 'easeinout', speed: 800 }
-            },
-            colors: ['#121212'], // Línea en gris carbón oscuro muy elegante
-            fill: {
-                type: 'gradient',
-                gradient: { shadeIntensity: 1, opacityFrom: 0.25, opacityTo: 0.02, stops: [0, 90, 100] }
-            },
-            dataLabels: { enabled: false },
-            stroke: { curve: 'smooth', width: 2.5 },
-            xaxis: {
-                categories: ['Day 1', 'Day 4', 'Day 7', 'Day 10', 'Day 15', 'Day 19', 'Day 24', 'Day 28'],
-                labels: { style: { colors: '#6b7280', fontSize: '10px' } },
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                tooltip: { enabled: false }
-            },
-            yaxis: {
-                min: 98,
-                max: 108,
-                labels: { style: { colors: '#6b7280', fontSize: '10px' }, formatter: (value) => { return value.toFixed(0); } }
-            },
-            grid: {
-                borderColor: '#f3f4f6',
-                strokeDashArray: 3,
-                xaxis: { lines: { show: true } },
-                yaxis: { lines: { show: true } },
-            },
-            theme: { mode: 'light' },
-            tooltip: {
-                theme: 'light',
-                y: { formatter: function (val) { return val.toFixed(6); } },
-                marker: { show: false }
-            }
+        // Weekday PnL Data (Consolidated)
+        const weekdayData = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            datasets: [{
+                data: [573.45, 1027.17, 813.59, -336.94, -82.94],
+                backgroundColor: ['#00FFFF', '#00FFFF', '#00FFFF', '#FF4444', '#FF4444'],
+                borderRadius: 2
+            }]
         };
 
-        const chart = new ApexCharts(document.querySelector("#interactive-chart"), chartOptions);
-        chart.render();
+        let equityChart, weekdayChart;
 
-        function updateDashboard(month) {
-            const data = dashboardData[month];
-
-            document.getElementById('metric-return').innerText = data.ret;
-            document.getElementById('metric-sharpe').innerText = data.sharpe;
-            document.getElementById('metric-drawdown').innerText = data.dd;
-            document.getElementById('metric-winrate').innerText = data.win;
-            document.getElementById('chart-month-label').innerText = data.label;
-
-            chart.updateSeries([{
-                name: 'Index Value',
-                data: data.chartData
-            }]);
-
-            const btnJune = document.getElementById('btn-june');
-            const btnJuly = document.getElementById('btn-july');
-            
-            const activeClass = "px-6 py-2 bg-charcoal text-cyanAccent border border-charcoal font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded shadow-md";
-            const inactiveClass = "px-6 py-2 text-gray-500 font-mono text-xs uppercase tracking-wider transition cursor-pointer rounded hover:bg-gray-50 border border-transparent";
-
-            if(month === 'june') {
-                btnJune.className = activeClass;
-                btnJuly.className = inactiveClass;
-            } else {
-                btnJuly.className = activeClass;
-                btnJune.className = inactiveClass;
-            }
+        // Initialize Equity Curve
+        function initEquityChart(dataObj) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            equityChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dataObj.labels,
+                    datasets: [{
+                        data: dataObj.data,
+                        borderColor: '#00FFFF',
+                        borderWidth: 2,
+                        tension: 0.2,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#00FFFF',
+                        fill: true,
+                        backgroundColor: (context) => {
+                            const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 300);
+                            gradient.addColorStop(0, 'rgba(0, 255, 255, 0.2)');
+                            gradient.addColorStop(1, 'rgba(0, 255, 255, 0.0)');
+                            return gradient;
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } }
+                    }
+                }
+            });
         }
+
+        // Initialize Weekday Chart
+        function initWeekdayChart() {
+            const ctx = document.getElementById('weekdayChart').getContext('2d');
+            weekdayChart = new Chart(ctx, {
+                type: 'bar',
+                data: weekdayData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        // Tab Switch Functionality
+        function switchTab(tabKey) {
+            ['june', 'july'].forEach(key => {
+                const btn = document.getElementById(`tab-${key}`);
+                if (key === tabKey) {
+                    btn.className = "px-4 py-2 bg-black text-cyanAccent font-bold border border-cyanAccent/30 shadow-sm";
+                } else {
+                    btn.className = "px-4 py-2 text-gray-400 hover:text-white transition";
+                }
+            });
+
+            const target = dataset[tabKey];
+            document.getElementById('kpi-return').innerText = target.kpis.return;
+            document.getElementById('kpi-pf').innerText = target.kpis.pf;
+            document.getElementById('kpi-sharpe').innerText = target.kpis.sharpe;
+            document.getElementById('kpi-drawdown').innerText = target.kpis.drawdown;
+            document.getElementById('kpi-winrate').innerText = target.kpis.winrate;
+            
+            document.getElementById('stat-holding').innerText = target.stats.holding;
+            document.getElementById('stat-trades').innerText = target.stats.trades;
+            document.getElementById('chart-title').innerText = `• ${target.title}`;
+
+            equityChart.data.labels = target.labels;
+            equityChart.data.datasets[0].data = target.data;
+            equityChart.update();
+        }
+
+        // Load Default Tab (July 2026)
+        window.onload = () => {
+            initEquityChart(dataset.july);
+            initWeekdayChart();
+        };
     </script>
 </body>
 </html>
