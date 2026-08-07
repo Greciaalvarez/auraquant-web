@@ -23,9 +23,9 @@
         .glow-text { text-shadow: 0 0 10px rgba(0, 255, 255, 0.4); }
     </style>
 </head>
-<body class="bg-charcoal text-gray-300 font-sans min-h-screen relative selection:bg-cyanAccent selection:text-charcoal">
+<body class="bg-charcoal text-gray-300 font-sans min-h-screen relative selection:bg-cyanAccent selection:text-charcoal pb-16">
 
-    <!-- Navigation -->
+    <!-- Navigation Header -->
     <header class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center border-b border-gray-800">
         <div class="flex items-center space-x-3">
             <div class="w-8 h-8 border-2 border-cyanAccent rotate-45 flex items-center justify-center glow-text">
@@ -36,22 +36,21 @@
         <a href="index.html" class="text-xs font-mono text-gray-400 hover:text-cyanAccent transition">&larr; RETURN TO CORE SYSTEM</a>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 py-12">
-        <!-- Section Header -->
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        <!-- Title & Month Selector Tabs -->
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
                 <p class="text-xs font-mono text-cyanAccent tracking-widest uppercase mb-2">// 02 . TRACK RECORD & EXECUTION</p>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight font-mono uppercase">Historical Performance Evolution</h1>
             </div>
             
-            <!-- Month Selector Tabs -->
             <div class="flex bg-cardDark border border-gray-800 p-1 rounded-sm font-mono text-xs">
                 <button onclick="switchTab('june')" id="tab-june" class="px-4 py-2 text-gray-400 hover:text-white transition">JUNE 2026</button>
                 <button onclick="switchTab('july')" id="tab-july" class="px-4 py-2 bg-black text-cyanAccent font-bold border border-cyanAccent/30 shadow-sm">JULY 2026</button>
             </div>
         </div>
 
-        <!-- Metric KPI Cards Grid -->
+        <!-- Metric KPI Cards -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
             <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
                 <p class="text-[10px] text-gray-400 font-mono tracking-widest uppercase mb-1">NET RETURN</p>
@@ -79,32 +78,94 @@
         <div class="bg-cardDark border border-gray-800 p-6 rounded-sm mb-8">
             <div class="flex justify-between items-center mb-6">
                 <p id="chart-title" class="text-xs font-mono text-gray-400 tracking-wider">&bull; EQUITY CURVE &mdash; JULY 2026 (FTMO LIVE EVALUATION)</p>
-                <p class="text-xs font-mono text-gray-500">BASE = $25,000 USD</p>
+                <p id="chart-base" class="text-xs font-mono text-gray-500">START BALANCE = $26,412.83 USD</p>
             </div>
-            <div class="w-full h-72">
+            <div class="w-full h-80">
                 <canvas id="performanceChart"></canvas>
             </div>
         </div>
 
-        <!-- LEVEL 3: SEASONALITY & EXECUTION ANALYTICS (NUEVA SECCIÓN) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- DYNAMIC HIGHLIGHTS SECTION (Yellow-highlighted metrics from Sheet) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 font-mono text-xs">
             
+            <!-- Best & Worst Trade Highlights -->
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
+                <p class="text-xs font-mono text-cyanAccent tracking-wider uppercase mb-4">// TRADE HIGHLIGHTS</p>
+                <div class="space-y-3">
+                    <div class="bg-charcoal p-3 rounded border border-cyanAccent/20">
+                        <span class="text-[10px] text-cyanAccent uppercase font-bold block mb-1">Best Trade</span>
+                        <div class="flex justify-between items-center">
+                            <span id="hl-best-info" class="text-white">29000021 XAUUSD.sim</span>
+                            <span id="hl-best-pnl" class="text-cyanAccent font-bold glow-text">+$446.03</span>
+                        </div>
+                        <span id="hl-best-date" class="text-[10px] text-gray-500 block mt-1">Closed Jul 23, 2026</span>
+                    </div>
+
+                    <div class="bg-charcoal p-3 rounded border border-red-500/20">
+                        <span class="text-[10px] text-red-400 uppercase font-bold block mb-1">Worst Trade</span>
+                        <div class="flex justify-between items-center">
+                            <span id="hl-worst-info" class="text-white">28925575 XAUUSD.sim</span>
+                            <span id="hl-worst-pnl" class="text-red-400 font-bold">-$383.82</span>
+                        </div>
+                        <span id="hl-worst-date" class="text-[10px] text-gray-500 block mt-1">Closed Jul 22, 2026</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outcomes & Averages -->
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
+                <p class="text-xs font-mono text-cyanAccent tracking-wider uppercase mb-4">// OUTCOME BREAKDOWN</p>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <span class="text-gray-400">Winning Trades:</span>
+                        <span id="out-wins" class="text-white font-bold">6 ($1,445.62)</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <span class="text-gray-400">Losing Trades:</span>
+                        <span id="out-losses" class="text-white font-bold">3 (-$864.12)</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <span class="text-gray-400">Average Win:</span>
+                        <span id="out-avgwin" class="text-cyanAccent font-bold">+$240.94</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <span class="text-gray-400">Average Loss:</span>
+                        <span id="out-avgloss" class="text-red-400 font-bold">-$288.04</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400">Payoff Ratio (R:R):</span>
+                        <span id="out-payoff" class="text-white font-bold">0.84</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Symbol Net Breakdown -->
+            <div class="bg-cardDark border border-gray-800 p-5 rounded-sm">
+                <p class="text-xs font-mono text-cyanAccent tracking-wider uppercase mb-4">// SYMBOL NET PnL</p>
+                <div id="symbol-breakdown-container" class="space-y-3">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SEASONALITY & EXECUTION ANALYTICS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Weekday PnL Chart -->
             <div class="md:col-span-2 bg-cardDark border border-gray-800 p-6 rounded-sm">
                 <div class="flex justify-between items-center mb-4">
                     <p class="text-xs font-mono text-cyanAccent tracking-wider uppercase">// SEASONALITY: PnL BY DAY OF WEEK</p>
-                    <span class="text-[10px] font-mono text-gray-500">USD CONSOLIDATED</span>
+                    <span class="text-[10px] font-mono text-gray-500">CONSOLIDATED USD</span>
                 </div>
                 <div class="w-full h-48">
                     <canvas id="weekdayChart"></canvas>
                 </div>
             </div>
 
-            <!-- Holding Time & Execution Stats -->
+            <!-- Execution Dynamics -->
             <div class="bg-cardDark border border-gray-800 p-6 rounded-sm flex flex-col justify-between">
                 <div>
                     <p class="text-xs font-mono text-cyanAccent tracking-wider uppercase mb-4">// EXECUTION DYNAMICS</p>
-                    
                     <div class="space-y-4 font-mono text-xs">
                         <div class="flex justify-between border-b border-gray-800 pb-2">
                             <span class="text-gray-400">Avg Holding Time:</span>
@@ -115,47 +176,57 @@
                             <span id="stat-trades" class="text-white font-bold">9 trades</span>
                         </div>
                         <div class="flex justify-between border-b border-gray-800 pb-2">
-                            <span class="text-gray-400">Primary Core Asset:</span>
-                            <span class="text-cyanAccent font-bold">XAUUSD (Gold)</span>
+                            <span class="text-gray-400">Risk Per Trade:</span>
+                            <span class="text-white font-bold">0.50% - 1.00%</span>
                         </div>
                         <div class="flex justify-between border-b border-gray-800 pb-2">
-                            <span class="text-gray-400">Risk per Trade:</span>
-                            <span class="text-white font-bold">0.50% - 1.00%</span>
+                            <span class="text-gray-400">Execution Engine:</span>
+                            <span class="text-cyanAccent font-bold">MQL5 / AWS EC2</span>
                         </div>
                     </div>
                 </div>
-
-                <div class="mt-6 pt-4 border-t border-gray-800/80">
-                    <p class="text-[10px] font-mono text-gray-500 leading-relaxed">
-                        * Execution algorithms enforce automated macro-event pauses and volatility filters prior to High-Impact news releases.
-                    </p>
-                </div>
+                <p class="text-[10px] font-mono text-gray-500 leading-relaxed mt-4">
+                    * Automated volatility filters disconnect trading routines during high-impact macro data events.
+                </p>
             </div>
-
         </div>
     </main>
 
-    <!-- Chart & Interactivity Script -->
+    <!-- JavaScript Data Logic -->
     <script>
-        // Data parsed directly from MT5 Report History
+        // Exact calculated metrics parsed from MT5 Report History
         const dataset = {
             june: {
                 title: "EQUITY CURVE — JUNE 2026 (FTMO LIVE EVALUATION)",
+                startBalance: "START BALANCE = $25,000.00 USD",
                 kpis: { return: "+4.96%", pf: "1.47", sharpe: "2.67", drawdown: "-4.83%", winrate: "47.4%" },
                 stats: { holding: "23.63 hrs", trades: "19 trades" },
-                labels: ["Jun 02", "Jun 04", "Jun 09", "Jun 11", "Jun 17", "Jun 22", "Jun 25", "Jun 30"],
-                data: [25000, 24691.59, 25892.47, 24683.45, 25282.83, 26340.88, 25983.32, 26240.52]
+                labels: ['Start', 'Jun 03', 'Jun 04', 'Jun 05', 'Jun 09', 'Jun 10', 'Jun 11', 'Jun 11', 'Jun 16', 'Jun 17', 'Jun 17', 'Jun 18', 'Jun 19', 'Jun 22', 'Jun 24', 'Jun 25', 'Jun 25', 'Jun 26', 'Jun 26', 'Jun 30'],
+                data: [25000.00, 24863.90, 24561.90, 25105.16, 24856.40, 25898.10, 25667.26, 25463.36, 25079.38, 24691.62, 24944.70, 25114.02, 25031.08, 25319.56, 26380.48, 26398.02, 26001.00, 26163.40, 26087.26, 26412.83],
+                bestTrade: { pos: "27358716", sym: "XAUUSD.sim", date: "Closed Jun 24, 2026", pnl: "+$1,060.92" },
+                worstTrade: { pos: "27560603", sym: "GBPUSD.sim", date: "Closed Jun 25, 2026", pnl: "-$397.02" },
+                outcomes: { wins: "9 ($3,862.27)", losses: "10 (-$2,621.75)", avgWin: "+$429.14", avgLoss: "-$262.18", payoff: "1.64" },
+                symbols: [
+                    { name: "XAUUSD.sim", buyPnL: "+$426.45", sellPnL: "+$2,907.40", totalPnL: "+$3,333.85", positive: true },
+                    { name: "GBPUSD.sim", buyPnL: "-$1,080.15", sellPnL: "-$1,013.18", totalPnL: "-$2,093.33", positive: false }
+                ]
             },
             july: {
                 title: "EQUITY CURVE — JULY 2026 (FTMO LIVE EVALUATION)",
+                startBalance: "START BALANCE = $26,412.83 USD",
                 kpis: { return: "+2.33%", pf: "1.67", sharpe: "3.57", drawdown: "-1.54%", winrate: "66.7%" },
                 stats: { holding: "35.17 hrs", trades: "9 trades" },
-                labels: ["Jul 01", "Jul 06", "Jul 13", "Jul 17", "Jul 22", "Jul 27", "Jul 31"],
-                data: [26240.52, 25958.22, 25762.34, 25937.06, 26111.78, 26412.83, 26822.02]
+                labels: ['Start', 'Jul 03', 'Jul 09', 'Jul 16', 'Jul 17', 'Jul 22', 'Jul 23', 'Jul 29', 'Jul 30', 'Jul 31'],
+                data: [26412.83, 26134.36, 25932.53, 26110.75, 26213.13, 25829.31, 26275.34, 26624.04, 26819.21, 26994.33],
+                bestTrade: { pos: "29000021", sym: "XAUUSD.sim", date: "Closed Jul 23, 2026", pnl: "+$446.03" },
+                worstTrade: { pos: "28925575", sym: "XAUUSD.sim", date: "Closed Jul 22, 2026", pnl: "-$383.82" },
+                outcomes: { wins: "6 ($1,445.62)", losses: "3 (-$864.12)", avgWin: "+$240.94", avgLoss: "-$288.04", payoff: "0.84" },
+                symbols: [
+                    { name: "XAUUSD.sim", buyPnL: "+$249.25", sellPnL: "+$332.25", totalPnL: "+$581.50", positive: true }
+                ]
             }
         };
 
-        // Weekday PnL Data (Consolidated)
         const weekdayData = {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
             datasets: [{
@@ -167,7 +238,6 @@
 
         let equityChart, weekdayChart;
 
-        // Initialize Equity Curve
         function initEquityChart(dataObj) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
             equityChart = new Chart(ctx, {
@@ -178,13 +248,13 @@
                         data: dataObj.data,
                         borderColor: '#00FFFF',
                         borderWidth: 2,
-                        tension: 0.2,
-                        pointRadius: 3,
+                        tension: 0.15,
+                        pointRadius: 4,
                         pointBackgroundColor: '#00FFFF',
                         fill: true,
                         backgroundColor: (context) => {
-                            const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 300);
-                            gradient.addColorStop(0, 'rgba(0, 255, 255, 0.2)');
+                            const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 320);
+                            gradient.addColorStop(0, 'rgba(0, 255, 255, 0.25)');
                             gradient.addColorStop(1, 'rgba(0, 255, 255, 0.0)');
                             return gradient;
                         }
@@ -193,16 +263,22 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => ` Balance: $${context.raw.toLocaleString('en-US', {minimumFractionDigits: 2})}`
+                            }
+                        }
+                    },
                     scales: {
                         x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } }
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 }, callback: (val) => `$${val.toLocaleString()}` } }
                     }
                 }
             });
         }
 
-        // Initialize Weekday Chart
         function initWeekdayChart() {
             const ctx = document.getElementById('weekdayChart').getContext('2d');
             weekdayChart = new Chart(ctx, {
@@ -214,13 +290,12 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { grid: { display: false }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 } } }
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#6b7280', font: { family: 'monospace', size: 10 }, callback: (val) => `$${val}` } }
                     }
                 }
             });
         }
 
-        // Tab Switch Functionality
         function switchTab(tabKey) {
             ['june', 'july'].forEach(key => {
                 const btn = document.getElementById(`tab-${key}`);
@@ -232,25 +307,63 @@
             });
 
             const target = dataset[tabKey];
+
+            // KPIs
             document.getElementById('kpi-return').innerText = target.kpis.return;
             document.getElementById('kpi-pf').innerText = target.kpis.pf;
             document.getElementById('kpi-sharpe').innerText = target.kpis.sharpe;
             document.getElementById('kpi-drawdown').innerText = target.kpis.drawdown;
             document.getElementById('kpi-winrate').innerText = target.kpis.winrate;
-            
+
+            // Chart Titles
+            document.getElementById('chart-title').innerText = `• ${target.title}`;
+            document.getElementById('chart-base').innerText = target.startBalance;
+
+            // Trade Highlights
+            document.getElementById('hl-best-info').innerText = `${target.bestTrade.pos} ${target.bestTrade.sym}`;
+            document.getElementById('hl-best-pnl').innerText = target.bestTrade.pnl;
+            document.getElementById('hl-best-date').innerText = target.bestTrade.date;
+
+            document.getElementById('hl-worst-info').innerText = `${target.worstTrade.pos} ${target.worstTrade.sym}`;
+            document.getElementById('hl-worst-pnl').innerText = target.worstTrade.pnl;
+            document.getElementById('hl-worst-date').innerText = target.worstTrade.date;
+
+            // Outcome Breakdown
+            document.getElementById('out-wins').innerText = target.outcomes.wins;
+            document.getElementById('out-losses').innerText = target.outcomes.losses;
+            document.getElementById('out-avgwin').innerText = target.outcomes.avgWin;
+            document.getElementById('out-avgloss').innerText = target.outcomes.avgLoss;
+            document.getElementById('out-payoff').innerText = target.outcomes.payoff;
+
+            // Execution Stats
             document.getElementById('stat-holding').innerText = target.stats.holding;
             document.getElementById('stat-trades').innerText = target.stats.trades;
-            document.getElementById('chart-title').innerText = `• ${target.title}`;
 
+            // Symbol Breakdown Render
+            const symContainer = document.getElementById('symbol-breakdown-container');
+            symContainer.innerHTML = target.symbols.map(s => `
+                <div class="bg-charcoal p-3 rounded border border-gray-800">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-white font-bold">${s.name}</span>
+                        <span class="${s.positive ? 'text-cyanAccent' : 'text-red-400'} font-bold">${s.totalPnL}</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-gray-500">
+                        <span>Buy: ${s.buyPnL}</span>
+                        <span>Sell: ${s.sellPnL}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Chart Data Update
             equityChart.data.labels = target.labels;
             equityChart.data.datasets[0].data = target.data;
             equityChart.update();
         }
 
-        // Load Default Tab (July 2026)
         window.onload = () => {
             initEquityChart(dataset.july);
             initWeekdayChart();
+            switchTab('july'); // Default view
         };
     </script>
 </body>
