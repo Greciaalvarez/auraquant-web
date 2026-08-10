@@ -14,6 +14,7 @@
                         charcoal: '#121212',
                         cardDark: '#1a1a1a',
                         cyanAccent: '#00FFFF',
+                        neonGreen: '#00FF66',
                     }
                 }
             }
@@ -21,6 +22,7 @@
     </script>
     <style>
         .glow-text { text-shadow: 0 0 10px rgba(0, 255, 255, 0.4); }
+        .glow-green { text-shadow: 0 0 10px rgba(0, 255, 102, 0.4); }
     </style>
 </head>
 <body class="bg-charcoal text-gray-300 font-sans min-h-screen relative selection:bg-cyanAccent selection:text-charcoal pb-16">
@@ -37,11 +39,20 @@
     </header>
 
     <main class="max-w-6xl mx-auto px-6 py-10">
-        <!-- Title & Month Selector Tabs -->
+        <!-- Title, Pulsing Indicator & Month Selector Tabs -->
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
                 <p class="text-xs font-mono text-cyanAccent tracking-widest uppercase mb-2">// 02 . TRACK RECORD & EXECUTION</p>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight font-mono uppercase">Historical Performance Evolution</h1>
+                
+                <!-- PULSING STATUS INDICATOR -->
+                <div class="flex items-center space-x-2 mt-3">
+                    <div class="relative flex h-2.5 w-2.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neonGreen opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-neonGreen"></span>
+                    </div>
+                    <span class="text-[11px] font-mono text-neonGreen tracking-widest uppercase glow-green">Live Testing Phase</span>
+                </div>
             </div>
             
             <div class="flex bg-cardDark border border-gray-800 p-1 rounded-sm font-mono text-xs">
@@ -172,12 +183,12 @@
                             <span id="stat-holding" class="text-white font-bold">35.17 hrs</span>
                         </div>
                         <div class="flex justify-between border-b border-gray-800 pb-2">
-                            <span class="text-gray-400">Total Executed Trades:</span>
+                            <span class="text-gray-400">Total Executed:</span>
                             <span id="stat-trades" class="text-white font-bold">9 trades</span>
                         </div>
                         <div class="flex justify-between border-b border-gray-800 pb-2">
                             <span class="text-gray-400">Risk Per Trade:</span>
-                            <span class="text-white font-bold">1.50% Fixed</span>
+                            <span class="text-white font-bold">Vol-Adjusted (1.50% Cap)</span>
                         </div>
                         <div class="flex justify-between border-b border-gray-800 pb-2">
                             <span class="text-gray-400">Execution Engine:</span>
