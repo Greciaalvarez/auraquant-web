@@ -154,7 +154,7 @@
             <!-- Lead Capture Form linked directly to formspree or handled via custom js -->
             <!-- Formulario Conectado a Web3Forms -->
         <!-- Formulario Conectado a Web3Forms con Mensaje Opcional -->
-        <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-4 max-w-md mx-auto">
+        <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST" onsubmit="gtag('event', 'generate_lead', {'currency': 'USD', 'value': 0});" class="space-y-4 max-w-md mx-auto">
             
             <!-- REEMPLAZA CON TU ACCESS KEY DE WEB3FORMS -->
             <input type="hidden" name="access_key" value="946bbcfc-28e4-4f7b-9331-5abb5237570e">
