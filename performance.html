@@ -11,7 +11,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
       gtag('config', 'G-6DQN260GLT');
     </script>
     
@@ -172,7 +171,7 @@
         </div>
 
         <!-- SEASONALITY & EXECUTION ANALYTICS -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <!-- Weekday PnL Chart -->
             <div class="md:col-span-2 bg-cardDark border border-gray-800 p-6 rounded-sm">
                 <div class="flex justify-between items-center mb-4">
@@ -212,6 +211,64 @@
                 </p>
             </div>
         </div>
+
+        <!-- QUANTITATIVE METHODOLOGY & CORE PHILOSOPHY -->
+        <div class="bg-cardDark border border-gray-800 p-8 rounded-sm mt-8">
+            <p class="text-xs font-mono text-cyanAccent tracking-widest uppercase mb-3">// 03 . QUANTITATIVE FRAMEWORK & RISK MANAGEMENT</p>
+            <h2 class="text-xl font-bold text-white font-mono uppercase tracking-tight mb-4">Systematic Execution Architecture</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-gray-400 font-mono leading-relaxed">
+                <div>
+                    <h3 class="text-white font-bold mb-2 flex items-center gap-2">
+                        <span class="text-cyanAccent">▪</span> Macro Volatility Protection
+                    </h3>
+                    <p>
+                        Algorithmic execution automatically adjusts exposure or enforces complete circuit pauses prior to high-impact macroeconomic data releases (CPI, FOMC, NFP) to mitigate extreme slippage.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-2 flex items-center gap-2">
+                        <span class="text-cyanAccent">▪</span> Dynamic Lot-Sizing
+                    </h3>
+                    <p>
+                        Position size is systematically calculated on an order-by-order basis using real-time volatility metrics, maintaining strict risk parity capped at 1.50% total equity exposure.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-2 flex items-center gap-2">
+                        <span class="text-cyanAccent">▪</span> High-Liquidity Edge
+                    </h3>
+                    <p>
+                        Models are exclusively deployed on deeply liquid assets (XAUUSD) hosted on dedicated low-latency AWS EC2 cloud infrastructure, ensuring clean execution and tight spread compliance.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSTITUTIONAL CTA & NETWORKING -->
+        <div class="bg-gradient-to-r from-cardDark via-charcoal to-cardDark border border-cyanAccent/20 p-8 rounded-sm mt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <p class="text-xs font-mono text-cyanAccent uppercase tracking-wider mb-1">// CONNECT & COLLABORATE</p>
+                <h3 class="text-lg font-bold text-white font-mono">Interested in our Quantitative Research & Model Architecture?</h3>
+                <p class="text-xs font-mono text-gray-400 mt-1">Connect directly with our research desk or inquire about private strategy evaluation.</p>
+            </div>
+            <a href="https://www.linkedin.com" target="_blank" class="px-6 py-3 bg-black text-cyanAccent font-mono text-xs font-bold border border-cyanAccent/40 hover:border-cyanAccent hover:bg-cyanAccent hover:text-black transition uppercase tracking-widest whitespace-nowrap glow-text">
+                Connect on LinkedIn &rarr;
+            </a>
+        </div>
+
+        <!-- LEGAL & REGULATORY DISCLAIMER -->
+        <footer class="mt-12 pt-8 border-t border-gray-800/80 text-[10px] font-mono text-gray-600 leading-relaxed">
+            <p class="mb-3">
+                <strong class="text-gray-400">DISCLAIMER & RISK DISCLOSURE:</strong> All information presented on this dashboard is strictly for informational, educational, and performance demonstration purposes for AuraQuant LLC. Derivatives, foreign exchange, and commodity contracts carry a high level of risk and may not be suitable for all market participants.
+            </p>
+            <p>
+                Past performance is not indicative of future results. The metrics displayed represent a live testing evaluation phase under predefined algorithmic risk controls. AuraQuant LLC does not provide retail financial advisory services.
+            </p>
+            <p class="mt-4 text-gray-500">
+                &copy; 2026 AuraQuant LLC. All rights reserved. Proprietary Systematic Architecture.
+            </p>
+        </footer>
     </main>
 
     <!-- JavaScript Data Logic -->
@@ -257,6 +314,75 @@
             }]
         };
 
+        // Custom Milestone Badge Plugin for Key Points (Start, Max DD Trough, Final)
+        const milestonePlugin = {
+            id: 'milestonePlugin',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                const dataset = data.datasets[0];
+                const meta = chart.getDatasetMeta(0);
+                const values = dataset.data;
+                if (!values || values.length === 0) return;
+
+                const startIndex = 0;
+                const endIndex = values.length - 1;
+                
+                // Locate lowest trough (Max Drawdown point)
+                let minIndex = 0;
+                let minVal = values[0];
+                for (let i = 1; i < values.length; i++) {
+                    if (values[i] < minVal) {
+                        minVal = values[i];
+                        minIndex = i;
+                    }
+                }
+
+                ctx.save();
+                ctx.font = 'bold 9px monospace';
+                ctx.textAlign = 'center';
+
+                const drawBadge = (index, label, text, color, isBottom) => {
+                    const point = meta.data[index];
+                    if (!point) return;
+                    const x = point.x;
+                    const y = point.y + (isBottom ? 18 : -18);
+
+                    const textWidth = Math.max(ctx.measureText(label).width, ctx.measureText(text).width) + 14;
+                    const boxHeight = 22;
+                    const boxX = x - textWidth / 2;
+                    const boxY = y - (isBottom ? 0 : boxHeight);
+
+                    // Badge pill background
+                    ctx.fillStyle = '#121212';
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.roundRect(boxX, boxY, textWidth, boxHeight, 3);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Inner text labels
+                    ctx.fillStyle = color;
+                    ctx.fillText(label, x, boxY + 9);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(text, x, boxY + 18);
+                };
+
+                // Start Badge
+                drawBadge(startIndex, 'START', `$${values[startIndex].toLocaleString('en-US', {minimumFractionDigits: 0})}`, '#8A99AD', false);
+
+                // Max Drawdown Trough Badge (if distinct from boundaries)
+                if (minIndex !== startIndex && minIndex !== endIndex) {
+                    drawBadge(minIndex, 'MAX DD TROUGH', `$${values[minIndex].toLocaleString('en-US', {minimumFractionDigits: 0})}`, '#FF4444', true);
+                }
+
+                // Final Peak Badge
+                drawBadge(endIndex, 'FINAL', `$${values[endIndex].toLocaleString('en-US', {minimumFractionDigits: 0})}`, '#00FFFF', false);
+
+                ctx.restore();
+            }
+        };
+
         let equityChart, weekdayChart;
 
         function initEquityChart(dataObj) {
@@ -281,9 +407,13 @@
                         }
                     }]
                 },
+                plugins: [milestonePlugin],
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: { top: 25, bottom: 25, left: 10, right: 10 }
+                    },
                     plugins: { 
                         legend: { display: false },
                         tooltip: {
