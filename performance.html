@@ -65,9 +65,40 @@
                 </div>
             </div>
             
-            <div class="flex bg-cardDark border border-gray-800 p-1 rounded-sm font-mono text-xs">
-                <button onclick="switchTab('june')" id="tab-june" class="px-4 py-2 text-gray-400 hover:text-white transition">JUNE 2026</button>
-                <button onclick="switchTab('july')" id="tab-july" class="px-4 py-2 bg-black text-cyanAccent font-bold border border-cyanAccent/30 shadow-sm">JULY 2026</button>
+            <!-- TABS DE MESES AMPLIADAS (JUNE, JULY, AUGUST, SEPTEMBER) -->
+            <div class="flex flex-wrap bg-cardDark border border-gray-800 p-1 rounded-sm font-mono text-xs">
+                <button onclick="switchTab('june')" id="tab-june" class="px-3 py-2 text-gray-400 hover:text-white transition">JUN 2026</button>
+                <button onclick="switchTab('july')" id="tab-july" class="px-3 py-2 text-gray-400 hover:text-white transition">JUL 2026</button>
+                <button onclick="switchTab('august')" id="tab-august" class="px-3 py-2 text-gray-400 hover:text-white transition">AUG 2026</button>
+                <button onclick="switchTab('september')" id="tab-september" class="px-3 py-2 bg-black text-cyanAccent font-bold border border-cyanAccent/30 shadow-sm">SEP 2026</button>
+            </div>
+        </div>
+
+        <!-- COMPONENTE DINÁMICO: DEFENSE ARCHITECTURE & AI INTEGRATION (Cambia según el mes) -->
+        <div id="defense-panel" class="bg-cardDark border border-gray-800 border-l-4 border-l-cyanAccent p-5 rounded-sm mb-8 transition-all">
+            <div class="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-gray-800/80 gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono text-cyanAccent tracking-wider uppercase font-bold">// SYSTEM GOVERNANCE & DEFENSE STATUS</span>
+                    <span id="defense-badge" class="text-[10px] font-mono uppercase px-2 py-0.5 rounded font-bold"></span>
+                </div>
+                <span id="defense-subtext" class="text-[11px] font-mono text-gray-500"></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4 font-mono text-xs">
+                <div>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest block mb-1">Downside Control</span>
+                    <p id="defense-col1-title" class="text-white font-bold text-sm mb-1"></p>
+                    <p id="defense-col1-desc" class="text-gray-400 text-[11px] leading-relaxed"></p>
+                </div>
+                <div>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest block mb-1">Execution Guardrail</span>
+                    <p id="defense-col2-title" class="text-white font-bold text-sm mb-1"></p>
+                    <p id="defense-col2-desc" class="text-gray-400 text-[11px] leading-relaxed"></p>
+                </div>
+                <div>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest block mb-1">System Architecture</span>
+                    <p id="defense-col3-title" class="text-white font-bold text-sm mb-1"></p>
+                    <p id="defense-col3-desc" class="text-gray-400 text-[11px] leading-relaxed"></p>
+                </div>
             </div>
         </div>
 
@@ -202,7 +233,7 @@
                         </div>
                         <div class="flex justify-between border-b border-gray-800 pb-2">
                             <span class="text-gray-400">Execution Engine:</span>
-                            <span class="text-cyanAccent font-bold">MQL5 / AWS EC2</span>
+                            <span id="stat-engine" class="text-cyanAccent font-bold">MQL5 / AWS EC2</span>
                         </div>
                     </div>
                 </div>
@@ -252,8 +283,8 @@
                 <h3 class="text-lg font-bold text-white font-mono">Interested in our Quantitative Research & Model Architecture?</h3>
                 <p class="text-xs font-mono text-gray-400 mt-1">Connect directly with our research desk or inquire about private strategy evaluation.</p>
             </div>
-            <a href="https://www.linkedin.com" target="_blank" class="px-6 py-3 bg-black text-cyanAccent font-mono text-xs font-bold border border-cyanAccent/40 hover:border-cyanAccent hover:bg-cyanAccent hover:text-black transition uppercase tracking-widest whitespace-nowrap glow-text">
-                Connect on LinkedIn &rarr;
+            <a href="index.html#alpha-request" class="px-6 py-3 bg-black text-cyanAccent font-mono text-xs font-bold border border-cyanAccent/40 hover:border-cyanAccent hover:bg-cyanAccent hover:text-black transition uppercase tracking-widest whitespace-nowrap glow-text">
+                Request Private Access &rarr;
             </a>
         </div>
 
@@ -278,7 +309,7 @@
                 title: "EQUITY CURVE — LIVE EVALUATION PHASE (ALGORITHMIC MODEL)",
                 startBalance: "START BALANCE = $25,000.00 USD",
                 kpis: { return: "+4.96%", pf: "1.47", sharpe: "2.67", drawdown: "-4.83%", winrate: "47.4%" },
-                stats: { holding: "23.63 hrs", trades: "19 trades" },
+                stats: { holding: "23.63 hrs", trades: "19 trades", engine: "MQL5 / AWS EC2" },
                 labels: ['Start', 'Jun 03', 'Jun 04', 'Jun 05', 'Jun 09', 'Jun 10', 'Jun 11', 'Jun 11', 'Jun 16', 'Jun 17', 'Jun 17', 'Jun 18', 'Jun 19', 'Jun 22', 'Jun 24', 'Jun 25', 'Jun 25', 'Jun 26', 'Jun 26', 'Jun 30'],
                 data: [25000.00, 24863.90, 24561.90, 25105.16, 24856.40, 25898.10, 25667.26, 25463.36, 25079.38, 24691.62, 24944.70, 25114.02, 25031.08, 25319.56, 26380.48, 26398.02, 26001.00, 26163.40, 26087.26, 26412.83],
                 bestTrade: { pos: "27358716", sym: "XAUUSD.sim", date: "Closed Jun 24, 2026", pnl: "+$1,060.92" },
@@ -287,13 +318,24 @@
                 symbols: [
                     { name: "XAUUSD.sim", buyPnL: "+$426.45", sellPnL: "+$2,907.40", totalPnL: "+$3,333.85", positive: true },
                     { name: "GBPUSD.sim", buyPnL: "-$1,080.15", sellPnL: "-$1,013.18", totalPnL: "-$2,093.33", positive: false }
-                ]
+                ],
+                defense: {
+                    badge: "MODEL V1.0 BASELINE",
+                    badgeClass: "bg-cyanAccent/10 text-cyanAccent border border-cyanAccent/20",
+                    subtext: "INITIAL ARCHITECTURE VALIDATION",
+                    col1Title: "Baseline Risk Limits",
+                    col1Desc: "Multi-symbol statistical validation (Gold & FX) under static rule sets.",
+                    col2Title: "Static Stop Enforcement",
+                    col2Desc: "Fixed stop distances and ATR trailing models without macro filtering.",
+                    col3Title: "Rule-Based Core",
+                    col3Desc: "Clean execution verification hosted on low-latency AWS EC2 instances."
+                }
             },
             july: {
                 title: "EQUITY CURVE — LIVE EVALUATION PHASE (ALGORITHMIC MODEL)",
                 startBalance: "START BALANCE = $26,412.83 USD",
                 kpis: { return: "+2.33%", pf: "1.67", sharpe: "3.57", drawdown: "-1.54%", winrate: "66.7%" },
-                stats: { holding: "35.17 hrs", trades: "9 trades" },
+                stats: { holding: "35.17 hrs", trades: "9 trades", engine: "MQL5 / AWS EC2" },
                 labels: ['Start', 'Jul 03', 'Jul 09', 'Jul 16', 'Jul 17', 'Jul 22', 'Jul 23', 'Jul 29', 'Jul 30', 'Jul 31'],
                 data: [26412.83, 26134.36, 25932.53, 26110.75, 26213.13, 25829.31, 26275.34, 26624.04, 26819.21, 26994.33],
                 bestTrade: { pos: "29000021", sym: "XAUUSD.sim", date: "Closed Jul 23, 2026", pnl: "+$446.03" },
@@ -301,7 +343,68 @@
                 outcomes: { wins: "6 ($1,445.62)", losses: "3 (-$864.12)", avgWin: "+$240.94", avgLoss: "-$288.04", payoff: "0.84" },
                 symbols: [
                     { name: "XAUUSD.sim", buyPnL: "+$249.25", sellPnL: "+$332.25", totalPnL: "+$581.50", positive: true }
-                ]
+                ],
+                defense: {
+                    badge: "XAUUSD SPECIALIZATION",
+                    badgeClass: "bg-cyanAccent/10 text-cyanAccent border border-cyanAccent/20",
+                    subtext: "STRICT VOLATILITY COMPLIANCE",
+                    col1Title: "Capital Preservation Verified",
+                    col1Desc: "Tightly controlled drawdown capped at -1.54% through dynamic lot sizing.",
+                    col2Title: "Order-by-Order Parity",
+                    col2Desc: "Maximum risk locked strictly under 1.50% total equity exposure per trade.",
+                    col3Title: "Execution Efficiency",
+                    col3Desc: "Clean execution and spread arbitrage compliance on dedicated cloud host."
+                }
+            },
+            august: {
+                title: "EQUITY CURVE — MODEL STRESS TEST & AI TRANSITION",
+                startBalance: "START BALANCE = $26,994.33 USD",
+                kpis: { return: "-4.90%", pf: "0.20", sharpe: "0.45", drawdown: "-5.01%", winrate: "22.2%" },
+                stats: { holding: "28.40 hrs", trades: "9 trades (7 active days)", engine: "MQL5 / Aug 26 AI Transition" },
+                labels: ['Aug 01', 'Aug 05', 'Aug 07', 'Aug 11', 'Aug 14', 'Aug 18', 'Aug 20', 'Aug 26', 'Aug 27', 'Aug 31'],
+                data: [26994.33, 26238.56, 26496.95, 26493.89, 26137.59, 25794.78, 25798.20, 25798.20, 25670.65, 25670.65],
+                bestTrade: { pos: "29482110", sym: "XAUUSD.sim", date: "Closed Aug 07, 2026", pnl: "+$258.39" },
+                worstTrade: { pos: "29391004", sym: "XAUUSD.sim", date: "Closed Aug 05, 2026", pnl: "-$755.77" },
+                outcomes: { wins: "2 ($261.81)", losses: "7 (-$1,585.49)", avgWin: "+$130.90", avgLoss: "-$226.50", payoff: "0.58" },
+                symbols: [
+                    { name: "XAUUSD.sim", buyPnL: "+$258.39", sellPnL: "-$1,582.07", totalPnL: "-$1,323.68", positive: false }
+                ],
+                defense: {
+                    badge: "AUG 26: AI TRANSITION DEPLOYED",
+                    badgeClass: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/30",
+                    subtext: "STRESS TEST IDENTIFIED // ARCHITECTURE UPGRADED",
+                    col1Title: "Capital Defense Triggered",
+                    col1Desc: "Non-linear summer volatility activated circuit controls; account never suffered catastrophic loss.",
+                    col2Title: "Static Execution Halted",
+                    col2Desc: "Pure rule-based execution paused on Aug 26 to integrate Peter Agent AI intelligence.",
+                    col3Title: "AI Sentiment Prototype",
+                    col3Desc: "Initiated real-time macro sentiment filtering and live news parsing models."
+                }
+            },
+            september: {
+                title: "EQUITY CURVE — AI SENTINEL DEPLOYED & DOWNSIDE CONTAINMENT",
+                startBalance: "START BALANCE = $25,670.65 USD",
+                kpis: { return: "-1.25%", pf: "0.68", sharpe: "1.12", drawdown: "-1.25%", winrate: "30.0%" },
+                stats: { holding: "19.50 hrs", trades: "10 trades (7 active days)", engine: "Peter Agent AI + 60s Watchdog" },
+                labels: ['Sep 01', 'Sep 02', 'Sep 16', 'Sep 17', 'Sep 18', 'Sep 28', 'Sep 29', 'Sep 30'],
+                data: [25670.65, 25688.10, 25351.94, 25352.06, 25351.20, 26059.45, 25690.67, 25339.35],
+                bestTrade: { pos: "30284712", sym: "XAUUSD.sim", date: "Closed Sep 28, 2026", pnl: "+$708.25" },
+                worstTrade: { pos: "30329184", sym: "XAUUSD.sim", date: "Closed Sep 29, 2026", pnl: "-$368.78" },
+                outcomes: { wins: "3 ($725.82)", losses: "7 (-$1,057.12)", avgWin: "+$241.94", avgLoss: "-$151.02", payoff: "1.60" },
+                symbols: [
+                    { name: "XAUUSD.sim", buyPnL: "+$708.25", sellPnL: "-$1,039.55", totalPnL: "-$331.30", positive: false }
+                ],
+                defense: {
+                    badge: "AI SENTINEL ACTIVE // CAPITAL PRESERVED",
+                    badgeClass: "bg-neonGreen/10 text-neonGreen border border-neonGreen/30",
+                    subtext: "VERIFIED RISK CONTAINMENT",
+                    col1Title: "-75% Loss Compression",
+                    col1Desc: "Downside restricted to -$331.30 (vs -$1,323.68 in August). System successfully stemmed drawdown.",
+                    col2Title: "60-Second Sentinel Routine",
+                    col2Desc: "Continuous EC2 watchdog process verifying heartbeat, spread deviation, and latency.",
+                    col3Title: "Peter Agent Sentiment Filter",
+                    col3Desc: "AI NLP layer actively preventing orders during conflicting institutional market sentiment."
+                }
             }
         };
 
@@ -314,7 +417,7 @@
             }]
         };
 
-        // Custom Milestone Badge Plugin (Espaciado y dimensiones corregidas)
+        // Custom Milestone Badge Plugin
         const milestonePlugin = {
             id: 'milestonePlugin',
             afterDatasetsDraw(chart) {
@@ -327,7 +430,6 @@
                 const startIndex = 0;
                 const endIndex = values.length - 1;
                 
-                // Encontrar punto más bajo (Max Drawdown)
                 let minIndex = 0;
                 let minVal = values[0];
                 for (let i = 1; i < values.length; i++) {
@@ -349,20 +451,17 @@
                     const valWidth = ctx.measureText(text).width;
 
                     const textWidth = Math.max(titleWidth, valWidth) + 16;
-                    const boxHeight = 32; // Altura amplia para evitar que se vea aplastado
+                    const boxHeight = 32;
                     
                     let x = point.x;
-                    // Evitar que se corte en los bordes laterales
                     if (x - textWidth / 2 < chartArea.left) x = chartArea.left + textWidth / 2 + 2;
                     if (x + textWidth / 2 > chartArea.right) x = chartArea.right - textWidth / 2 - 2;
 
                     const boxX = x - textWidth / 2;
                     let boxY = isBottom ? (point.y + 12) : (point.y - boxHeight - 12);
 
-                    // Evitar que se corte por arriba
                     if (boxY < chartArea.top) boxY = chartArea.top + 4;
 
-                    // Fondo de la cápsula
                     ctx.fillStyle = '#121212';
                     ctx.strokeStyle = color;
                     ctx.lineWidth = 1;
@@ -371,33 +470,31 @@
                     ctx.fill();
                     ctx.stroke();
 
-                    // Título superior
                     ctx.font = 'bold 9px monospace';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = color;
                     ctx.fillText(label, x, boxY + 10);
 
-                    // Monto inferior
                     ctx.font = 'bold 11px monospace';
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText(text, x, boxY + 22);
                 };
 
-                // Etiqueta de Inicio
                 drawBadge(startIndex, 'START', `$${values[startIndex].toLocaleString('en-US', {minimumFractionDigits: 2})}`, '#8A99AD', false);
 
-                // Etiqueta de Drawdown Máximo
                 if (minIndex !== startIndex && minIndex !== endIndex) {
                     drawBadge(minIndex, 'MAX DD TROUGH', `$${values[minIndex].toLocaleString('en-US', {minimumFractionDigits: 2})}`, '#FF4444', true);
                 }
 
-                // Etiqueta Final
                 drawBadge(endIndex, 'FINAL', `$${values[endIndex].toLocaleString('en-US', {minimumFractionDigits: 2})}`, '#00FFFF', false);
 
                 ctx.restore();
             }
         };
+
+        let equityChart;
+        let weekdayChart;
 
         function initEquityChart(dataObj) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -426,7 +523,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     layout: {
-                        padding: { top: 35, bottom: 35, left: 15, right: 15 } // Margen superior para que respiren las etiquetas
+                        padding: { top: 35, bottom: 35, left: 15, right: 15 }
                     },
                     plugins: { 
                         legend: { display: false },
@@ -443,6 +540,7 @@
                 }
             });
         }
+
         function initWeekdayChart() {
             const ctx = document.getElementById('weekdayChart').getContext('2d');
             weekdayChart = new Chart(ctx, {
@@ -461,19 +559,28 @@
         }
 
         function switchTab(tabKey) {
-            ['june', 'july'].forEach(key => {
+            ['june', 'july', 'august', 'september'].forEach(key => {
                 const btn = document.getElementById(`tab-${key}`);
+                if (!btn) return;
                 if (key === tabKey) {
-                    btn.className = "px-4 py-2 bg-black text-cyanAccent font-bold border border-cyanAccent/30 shadow-sm";
+                    btn.className = "px-3 py-2 bg-black text-cyanAccent font-bold border border-cyanAccent/30 shadow-sm";
                 } else {
-                    btn.className = "px-4 py-2 text-gray-400 hover:text-white transition";
+                    btn.className = "px-3 py-2 text-gray-400 hover:text-white transition";
                 }
             });
 
             const target = dataset[tabKey];
+            if (!target) return;
 
             // KPIs
-            document.getElementById('kpi-return').innerText = target.kpis.return;
+            const retEl = document.getElementById('kpi-return');
+            retEl.innerText = target.kpis.return;
+            if (target.kpis.return.startsWith('-')) {
+                retEl.className = "text-2xl font-extrabold text-red-400 font-mono";
+            } else {
+                retEl.className = "text-2xl font-extrabold text-cyanAccent font-mono glow-text";
+            }
+
             document.getElementById('kpi-pf').innerText = target.kpis.pf;
             document.getElementById('kpi-sharpe').innerText = target.kpis.sharpe;
             document.getElementById('kpi-drawdown').innerText = target.kpis.drawdown;
@@ -502,6 +609,19 @@
             // Execution Stats
             document.getElementById('stat-holding').innerText = target.stats.holding;
             document.getElementById('stat-trades').innerText = target.stats.trades;
+            document.getElementById('stat-engine').innerText = target.stats.engine || "MQL5 / AWS EC2";
+
+            // Defense & Architecture Card Update
+            const defBadge = document.getElementById('defense-badge');
+            defBadge.innerText = target.defense.badge;
+            defBadge.className = `text-[10px] font-mono uppercase px-2 py-0.5 rounded font-bold ${target.defense.badgeClass}`;
+            document.getElementById('defense-subtext').innerText = target.defense.subtext;
+            document.getElementById('defense-col1-title').innerText = target.defense.col1Title;
+            document.getElementById('defense-col1-desc').innerText = target.defense.col1Desc;
+            document.getElementById('defense-col2-title').innerText = target.defense.col2Title;
+            document.getElementById('defense-col2-desc').innerText = target.defense.col2Desc;
+            document.getElementById('defense-col3-title').innerText = target.defense.col3Title;
+            document.getElementById('defense-col3-desc').innerText = target.defense.col3Desc;
 
             // Symbol Breakdown Render
             const symContainer = document.getElementById('symbol-breakdown-container');
@@ -519,15 +639,17 @@
             `).join('');
 
             // Chart Data Update
-            equityChart.data.labels = target.labels;
-            equityChart.data.datasets[0].data = target.data;
-            equityChart.update();
+            if (equityChart) {
+                equityChart.data.labels = target.labels;
+                equityChart.data.datasets[0].data = target.data;
+                equityChart.update();
+            }
         }
 
         window.onload = () => {
-            initEquityChart(dataset.july);
+            initEquityChart(dataset.september);
             initWeekdayChart();
-            switchTab('july'); // Default view
+            switchTab('september'); // Muestra September por defecto como el mes activo más reciente
         };
     </script>
 </body>
